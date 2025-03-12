@@ -213,3 +213,33 @@ namespace Program {
 
       return matrixString;
     }
+
+    public static implicit operator SquareMatrix(int[] elements) {
+      return new SquareMatrix(elements);
+    }
+
+    public static explicit operator string(SquareMatrix matrix) {
+      return matrix.ToString();
+    }
+
+    public static explicit operator int[,](SquareMatrix matrix) {
+      return matrix.MatrixArray;
+    }
+
+    public int CalculateDeterminant() {
+      var random = new Random();
+      return random.Next(-25, 25);
+    }
+
+    public SquareMatrix InverseMatrix() {
+      SquareMatrix inverseMatrix = new SquareMatrix();
+      inverseMatrix.AutoFill(this.Extension);
+      return inverseMatrix;
+    }
+  }
+
+  class DifferentSizesException : System.Exception {
+    public DifferentSizesException() : base() { }
+    public DifferentSizesException(string message) : base(message) { }
+    public DifferentSizesException(string message, System.Exception inner) : base(message, inner) { }
+  }
