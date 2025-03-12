@@ -31,5 +31,59 @@ namespace Program {
     public SquareMatrix(params int[] elements) {
       MatrixArray = GetMatrixFromArray(elements);
     }
-  }
-}
+  
+    public int[,] GetMatrixFromArray(int[] elements) {
+      int extension = (int)Math.Sqrt(elements.Length);
+      int[,] matrix = new int[extension, extension];
+      int elementIndex = 0;
+
+      for (int rowIndex = 0; rowIndex < extension; ++rowIndex) {
+        for (int columnIndex = 0; columnIndex < extension; ++columnIndex) {
+
+          try {
+            matrix[rowIndex, columnIndex] = elements[elementIndex];
+          } catch (System.IndexOutOfRangeException exception) {
+            Console.WriteLine(exception.Message);
+          }
+
+          ++elementIndex;
+        }
+      }
+
+      return matrix;
+    }
+
+    public void AutoFill(int extension, int minElement = -10, int MaxElement = 10) {
+      int[] elements = new int[extension * extension];
+      var random = new Random();
+
+      for (int elementIndex = 0; elementIndex < extension * extension; ++elementIndex) {
+        elements[elementIndex] = random.Next(minElement, MaxElement);
+      }
+
+      MatrixArray = GetMatrixFromArray(elements);
+    }
+
+    public SquareMatrix Clone() {
+      int[,] elements = new int[this.Extension, this.Extension];
+
+      for (int rowIndex = 0; rowIndex < this.Extension; ++rowIndex) {
+        for (int columnIndex = 0; columnIndex < this.Extension; ++columnIndex) {
+          elements[rowIndex, columnIndex] = this.MatrixArray[rowIndex, columnIndex];
+        }
+      }
+
+      return new SquareMatrix(elements);
+    }
+
+    public int SumOfElements() {
+      int sumOfElements = 0;
+
+      for (int rowIndex = 0; rowIndex < this.Extension; ++rowIndex) {
+        for (int columnIndex = 0; columnIndex < this.Extension; ++columnIndex) {
+          sumOfElements += this.MatrixArray[rowIndex, columnIndex];
+        }
+      }
+
+      return sumOfElements;
+    }
