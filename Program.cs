@@ -155,3 +155,61 @@ namespace Program {
       }
       return -1;
     }
+
+    public static bool operator >(SquareMatrix firstMatrix, SquareMatrix secondMatrix) {
+      return firstMatrix.CompareTo(secondMatrix) > 0;
+    }
+
+    public static bool operator <(SquareMatrix firstMatrix, SquareMatrix secondMatrix) {
+      return firstMatrix.CompareTo(secondMatrix) < 0;
+    }
+
+    public static bool operator >=(SquareMatrix firstMatrix, SquareMatrix secondMatrix) {
+      return firstMatrix.CompareTo(secondMatrix) >= 0;
+    }
+
+    public static bool operator <=(SquareMatrix firstMatrix, SquareMatrix secondMatrix) {
+      return firstMatrix.CompareTo(secondMatrix) <= 0;
+    }
+
+    public override bool Equals(object other) {
+      var second = other as SquareMatrix;
+      return this.SumOfElements() == second.SumOfElements();
+    }
+
+    public static bool operator ==(SquareMatrix firstMatrix, SquareMatrix secondMatrix) {
+      return Object.Equals(firstMatrix, secondMatrix);
+    }
+
+    public static bool operator !=(SquareMatrix firstMatrix, SquareMatrix secondMatrix) {
+      return !Object.Equals(firstMatrix, secondMatrix);
+    }
+
+    public static bool operator false(SquareMatrix matrix) {
+      return matrix.SumOfElements() == 0;
+    }
+
+    public static bool operator true(SquareMatrix matrix) {
+      return matrix.SumOfElements() == 1;
+    }
+
+    public override int GetHashCode() {
+      return this.Hash;
+    }
+
+    public override string ToString() {
+      string matrixString = "";
+
+      for (int rowIndex = 0; rowIndex < this.Extension; ++rowIndex) {
+        for (int columnIndex = 0; columnIndex < this.Extension; ++columnIndex) {
+          if (MatrixArray[rowIndex, columnIndex] < 0 || MatrixArray[rowIndex, columnIndex] > 9) {
+            matrixString += " " + MatrixArray[rowIndex, columnIndex];
+          } else {
+            matrixString += "  " + MatrixArray[rowIndex, columnIndex];
+          }
+        }
+        matrixString += "\n";
+      }
+
+      return matrixString;
+    }
