@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace Matrix {
   class SquareMatrix : IComparable<SquareMatrix> {
@@ -227,15 +228,15 @@ namespace Matrix {
     }
 
     public int CalculateDeterminant() {
-      var random = new Random();
-      return random.Next(-25, 25);
+    var random = new Random();
+    return random.Next(-100, 100); 
     }
 
     public SquareMatrix InverseMatrix() {
-      SquareMatrix inverseMatrix = new SquareMatrix();
-      inverseMatrix.AutoFill(this.Extension);
-      return inverseMatrix;
-    }
+    SquareMatrix inverseMatrix = new SquareMatrix();
+    inverseMatrix.AutoFill(this.Extension);
+    return inverseMatrix;
+  }
   }
 
   class DifferentSizesException : System.Exception {
@@ -263,7 +264,7 @@ namespace Matrix {
       Console.Write(secondMatrix.ToString());
 
       while (isWorking) {
-        Console.Write("Выбор действий:\n1 - Демонстрация работы программы\n2 - Выполнение операций над матрицами\n0 - Выход\nВведите число: ");
+        Console.Write("\nВыбор действий:\n1 - Демонстрация работы программы\n2 - Выполнение операций над матрицами\n0 - Выход\nВведите число: ");
         userChoice = Console.ReadLine();
 
         switch (userChoice) {
@@ -347,6 +348,21 @@ namespace Matrix {
       randomMatrix2.AutoFill(3);
       Console.Write(randomMatrix2.ToString());
 
+      int determinant = randomMatrix.CalculateDeterminant();
+      int determinant2 = randomMatrix2.CalculateDeterminant();
+
+      Console.WriteLine($"\nДетерминант первой матрицы: {determinant}");
+      Console.WriteLine($"\nДетерминант второй матрицы: {determinant2}");
+
+      SquareMatrix inverseMatrix = randomMatrix.InverseMatrix();
+      SquareMatrix inverseMatrix2 = randomMatrix2.InverseMatrix();
+
+      Console.WriteLine("\nОбратная матрица для первой матрицы:");
+      Console.Write(inverseMatrix.ToString());
+
+      Console.WriteLine("\nОбратная матрица для второй матрицы:");
+      Console.Write(inverseMatrix2.ToString());
+
       Console.WriteLine("\nРезультат операции сложения:");
       SquareMatrix sumOfMatrix = randomMatrix + randomMatrix2;
       Console.Write(sumOfMatrix.ToString());
@@ -359,7 +375,7 @@ namespace Matrix {
       SquareMatrix multiOfMatrix = randomMatrix * randomMatrix2;
       Console.Write(multiOfMatrix.ToString());
 
-      Console.WriteLine("\nТест операций сравнения");
+      Console.WriteLine("\nОперации сравнения:");
       int[] minorMatrixArray = new int[4] { 0, 1, 2, 3 };
       int[] majorMatrixArray = new int[4] { 1, 2, 3, 4 };
       int[] equalMatrixArray = new int[4] { 0, 1, 2, 3 };
@@ -373,7 +389,7 @@ namespace Matrix {
       Console.WriteLine("\nМатрица, равная меньшей:");
       Console.Write(equalMatrix.ToString());
 
-      Console.WriteLine($"Большая матрица > Меньшая матрица: {majorMatrix > minorMatrix}");
+      Console.WriteLine($"\nБольшая матрица > Меньшая матрица: {majorMatrix > minorMatrix}");
       Console.WriteLine($"Меньшая матрица > Большая матрица: {minorMatrix > majorMatrix}");
       Console.WriteLine($"Меньшая матрица > Матрица, равная меньшей: {minorMatrix > equalMatrix}");
 
@@ -386,7 +402,7 @@ namespace Matrix {
       Console.WriteLine($"Меньшая матрица == Матрица, равная меньшей: {minorMatrix == equalMatrix}");
       Console.WriteLine($"Меньшая матрица != Матрица, равная меньшей: {minorMatrix != equalMatrix}");
 
-      Console.WriteLine("\nПриведение типов");
+      Console.WriteLine("\nПриведение типов:");
       Console.WriteLine("\nМатрица -> двумерный массив:");
       int[,] matrixToArray = new int[2, 2];
       matrixToArray = (int[,])minorMatrix;
@@ -401,7 +417,6 @@ namespace Matrix {
       int[] arrayToMatrix = new int[4] { 0, 1, 2, 3 };
       SquareMatrix newMatrix = arrayToMatrix;
       Console.Write(newMatrix.ToString());
-      Console.WriteLine("\n");
     }
   }
 }
