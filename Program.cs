@@ -87,3 +87,71 @@ namespace Program {
 
       return sumOfElements;
     }
+
+        public static SquareMatrix operator +(SquareMatrix firstMatrix, SquareMatrix secondMatrix) {
+      if (firstMatrix.Extension != secondMatrix.Extension) {
+        throw new DifferentSizesException("Операцию сложения можно выполнить только в случае, если матрицы имеют одинаковую размерность!");
+      }
+
+      var result = firstMatrix.Clone();
+      int extension = firstMatrix.Extension;;
+
+      for (int rowIndex = 0; rowIndex < extension; ++rowIndex) {
+        for (int columnIndex = 0; columnIndex < extension; ++columnIndex) {
+          result.MatrixArray[rowIndex, columnIndex] += secondMatrix.MatrixArray[rowIndex, columnIndex];
+        }
+      }
+
+      return result;
+    }
+
+    public static SquareMatrix operator -(SquareMatrix firstMatrix, SquareMatrix secondMatrix) {
+      if (firstMatrix.Extension != secondMatrix.Extension) {
+        throw new DifferentSizesException("Операцию вычитания можно выполнить только в случае, если матрицы имеют одинаковую размерность!");
+      }
+
+      var result = firstMatrix.Clone();
+      int extension = firstMatrix.Extension;
+
+      for (int rowIndex = 0; rowIndex < extension; ++rowIndex) {
+        for (int columnIndex = 0; columnIndex < extension; ++columnIndex) {
+          result.MatrixArray[rowIndex, columnIndex] -= secondMatrix.MatrixArray[rowIndex, columnIndex];
+        }
+      }
+
+      return result;
+    }
+
+    public static SquareMatrix operator *(SquareMatrix firstMatrix, SquareMatrix secondMatrix) {
+      if (firstMatrix.Extension != secondMatrix.Extension) {
+        throw new DifferentSizesException("Операцию умножения можно выполнить только в случае, если матрицы имеют одинаковую размерность!");
+      }
+
+      var result = firstMatrix.Clone();
+      int extension = firstMatrix.Extension;
+
+      for (int rowIndexOfFirstMatrix = 0; rowIndexOfFirstMatrix < firstMatrix.Extension; ++rowIndexOfFirstMatrix) {
+        for (int columnIndex = 0; columnIndex < extension; ++columnIndex) {
+          result.MatrixArray[rowIndexOfFirstMatrix, columnIndex] = 0;
+
+          for (int indexOfSecondElement = 0; indexOfSecondElement < extension; ++indexOfSecondElement) {
+            result.MatrixArray[rowIndexOfFirstMatrix, columnIndex] += firstMatrix.MatrixArray[rowIndexOfFirstMatrix, indexOfSecondElement] * secondMatrix.MatrixArray[indexOfSecondElement, columnIndex];
+          }
+        }
+      }
+
+      return result;
+    }
+
+    public int CompareTo(SquareMatrix other) {
+      if (this.Extension == other.Extension) {
+        if (this.SumOfElements() > other.SumOfElements()) {
+          return 1;
+        } else if (this.SumOfElements() == other.SumOfElements()) {
+          return 0;
+        } else if (this.SumOfElements() < other.SumOfElements()) {
+          return -1;
+        }
+      }
+      return -1;
+    }
