@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Program {
+namespace Matrix {
   class SquareMatrix : IComparable<SquareMatrix> {
     public int Extension {
       get {
@@ -243,3 +243,165 @@ namespace Program {
     public DifferentSizesException(string message) : base(message) { }
     public DifferentSizesException(string message, System.Exception inner) : base(message, inner) { }
   }
+
+  class Program {
+    static void Main(string[] args) {
+      bool isWorking = true;
+      bool isCalculationMode;
+      string userChoice;
+      string operationChoice;
+
+      Console.Write("Введите число - размерность для первой матрицы: ");
+      int firstMatrixExtension = Convert.ToInt32(Console.ReadLine());
+      SquareMatrix firstMatrix = new SquareMatrix(GetMatrixElements(firstMatrixExtension));
+      
+      Console.Write(firstMatrix.ToString());
+      Console.Write("Введите число - размерность для первой матрицы: ");
+      int secondMatrixExtension = Convert.ToInt32(Console.ReadLine());
+      SquareMatrix secondMatrix = new SquareMatrix(GetMatrixElements(secondMatrixExtension));
+      
+      Console.Write(secondMatrix.ToString());
+
+      while (isWorking) {
+        Console.Write("Выбор действий:\n1 - Демонстрация работы программы\n2 - Выполнение операций над матрицами\n0 - Выход\nВведите число: ");
+        userChoice = Console.ReadLine();
+
+        switch (userChoice) {
+          case "0":
+            isWorking = false;
+            break;
+          case "1":
+            ShowTest();
+            break;
+          case "2":
+            isCalculationMode = true;
+
+            while (isCalculationMode) {
+              Console.Write("Список допустимых операций: +, -, *, >, >=, <, <=, ==, !=, 0 - для выхода\nВведите символ операции: ");
+              operationChoice = Console.ReadLine();
+
+              switch (operationChoice) {
+                case "0":
+                  isCalculationMode = false;
+                  break;
+                case "+":
+                  Console.WriteLine("Результат операции сложения:");
+                  SquareMatrix sumOfMatrix = firstMatrix + secondMatrix;
+                  Console.WriteLine(sumOfMatrix.ToString());
+                  break;
+                case "-":
+                  Console.WriteLine("Результат операции вычитания:");
+                  SquareMatrix subtractionOfMatrix = firstMatrix - secondMatrix;
+                  Console.WriteLine(subtractionOfMatrix.ToString());
+                  break;
+                case "*":
+                  Console.WriteLine("Результат операции умножения:");
+                  SquareMatrix multiplicationOfMatrix = firstMatrix * secondMatrix;
+                  Console.WriteLine(multiplicationOfMatrix.ToString());
+                  break;
+                case ">":
+                  Console.WriteLine($"Матрица 1 > Матрица 2: {firstMatrix > secondMatrix}");
+                  break;
+                case ">=":
+                  Console.WriteLine($"Матрица 1 >= Матрица 2: {firstMatrix >= secondMatrix}");
+                  break;
+                case "<":
+                  Console.WriteLine($"Матрица 1 < Матрица 2: {firstMatrix < secondMatrix}");
+                  break;
+                case "<=":
+                  Console.WriteLine($"Матрица 1 <= Матрица 2: {firstMatrix < secondMatrix}");
+                  break;
+                case "==":
+                  Console.WriteLine($"Матрица 1 == Матрица 2: {firstMatrix == secondMatrix}");
+                  break;
+                case "!=":
+                  Console.WriteLine($"Матрица 1 != Матрица 2: {firstMatrix != secondMatrix}");
+                  break;
+                default:
+                  Console.WriteLine("Данная операция не может быть реализована");
+                  break;
+              }
+            }
+
+            break;
+        }
+      }
+    }
+
+    static int[] GetMatrixElements(int extesion) {
+      int[] elements = new int[extesion * extesion];
+      for (int elementIndex = 0; elementIndex < extesion * extesion; ++elementIndex) {
+        Console.Write($"Введите {elementIndex + 1}-й элемент матрицы: ");
+        elements[elementIndex] = Convert.ToInt32(Console.ReadLine());
+      }
+      return elements;
+    }
+
+    static void ShowTest() {
+      Console.WriteLine("Создание первой случайной матрицы размерности 3x3:");
+      SquareMatrix randomMatrix = new SquareMatrix();
+      randomMatrix.AutoFill(3);
+      Console.Write(randomMatrix.ToString());
+      Console.WriteLine("Создание второй случайной матрицы размерности 3x3:");
+      SquareMatrix randomMatrix2 = new SquareMatrix();
+      randomMatrix2.AutoFill(3);
+      Console.Write(randomMatrix2.ToString());
+
+      Console.WriteLine("\nРезультат операции сложения:");
+      SquareMatrix sumOfMatrix = randomMatrix + randomMatrix2;
+      Console.Write(sumOfMatrix.ToString());
+
+      Console.WriteLine("\nРезультат операции вычитания:");
+      SquareMatrix subOfMatrix = randomMatrix - randomMatrix2;
+      Console.Write(subOfMatrix.ToString());
+
+      Console.WriteLine("\nРезультат операции умножения:");
+      SquareMatrix multiOfMatrix = randomMatrix * randomMatrix2;
+      Console.Write(multiOfMatrix.ToString());
+
+      Console.WriteLine("\nТест операций сравнения");
+      int[] minorMatrixArray = new int[4] { 0, 1, 2, 3 };
+      int[] majorMatrixArray = new int[4] { 1, 2, 3, 4 };
+      int[] equalMatrixArray = new int[4] { 0, 1, 2, 3 };
+      SquareMatrix minorMatrix = new SquareMatrix(minorMatrixArray);
+      SquareMatrix majorMatrix = new SquareMatrix(majorMatrixArray);
+      SquareMatrix equalMatrix = new SquareMatrix(equalMatrixArray);
+      Console.WriteLine("\nМеньшая матрица:");
+      Console.Write(minorMatrix.ToString());
+      Console.WriteLine("\nБольшая матрица:");
+      Console.Write(majorMatrix.ToString());
+      Console.WriteLine("\nМатрица, равная меньшей:");
+      Console.Write(equalMatrix.ToString());
+
+      Console.WriteLine($"Большая матрица > Меньшая матрица: {majorMatrix > minorMatrix}");
+      Console.WriteLine($"Меньшая матрица > Большая матрица: {minorMatrix > majorMatrix}");
+      Console.WriteLine($"Меньшая матрица > Матрица, равная меньшей: {minorMatrix > equalMatrix}");
+
+      Console.WriteLine($"Большая матрица < Меньшая матрица: {majorMatrix < minorMatrix}");
+      Console.WriteLine($"Меньшая матрица < Большая матрица: {minorMatrix < majorMatrix}");
+      Console.WriteLine($"Меньшая матрица < Матрица, равная меньшей: {minorMatrix < equalMatrix}");
+
+      Console.WriteLine($"Меньшая матрица == Большая матрица: {minorMatrix == majorMatrix}");
+      Console.WriteLine($"Меньшая матрица != Большая матрица: {minorMatrix != majorMatrix}");
+      Console.WriteLine($"Меньшая матрица == Матрица, равная меньшей: {minorMatrix == equalMatrix}");
+      Console.WriteLine($"Меньшая матрица != Матрица, равная меньшей: {minorMatrix != equalMatrix}");
+
+      Console.WriteLine("\nПриведение типов");
+      Console.WriteLine("\nМатрица -> двумерный массив:");
+      int[,] matrixToArray = new int[2, 2];
+      matrixToArray = (int[,])minorMatrix;
+      Console.WriteLine(matrixToArray);
+
+      Console.WriteLine("\nМатрица -> строка:");
+      string matrixToString;
+      matrixToString = (string)majorMatrix;
+      Console.WriteLine(matrixToString);
+
+      Console.WriteLine("\nОдномерный массив -> матрица:");
+      int[] arrayToMatrix = new int[4] { 0, 1, 2, 3 };
+      SquareMatrix newMatrix = arrayToMatrix;
+      Console.Write(newMatrix.ToString());
+      Console.WriteLine("\n");
+    }
+  }
+}
