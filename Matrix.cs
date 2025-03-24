@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Matrix
 {
@@ -10,21 +10,21 @@ namespace Matrix
 
     public int MatrixSize => (int)Math.Sqrt(MatrixElements.Length);
     public int[,] MatrixElements { get; private set; }
-    private int hashValue;
+    private int _hashValue;
 
     public int Hash
     {
       get
       {
-        hashValue = 1;
+        _hashValue = 1;
         for (int rowIndex = 0; rowIndex < MatrixSize; ++rowIndex)
         {
           for (int columnIndex = 0; columnIndex < MatrixSize; ++columnIndex)
           {
-            hashValue = hashValue * 31 + MatrixElements[rowIndex, columnIndex];
+            _hashValue = _hashValue * 31 + MatrixElements[rowIndex, columnIndex];
           }
         }
-        return hashValue;
+        return _hashValue;
       }
     }
 
